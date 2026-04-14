@@ -129,7 +129,7 @@ Terraform provisions all core GCP resources — zero manual console setup requir
 # main.tf
 
 provider "google" {
-  project = "anushkadataengineeringproject"
+  project = "project-id"
   region  = "asia-south1"
 }
 
@@ -165,7 +165,7 @@ Kestra manages the pipeline across **3 sequential flows**, running in Docker via
 ```yaml
 # docker-compose volume mount
 volumes:
-  - C:/Users/Anushka/Downloads/archive:/data   # Raw CSVs available inside Kestra as /data/
+  - ./data:/data  # Raw CSVs available inside Kestra as /data/
 ```
 
 ### Flow 01 — GCP Config (`01_gcp_setup`)
@@ -173,7 +173,7 @@ volumes:
 Stores all GCP configuration as reusable key-value pairs:
 
 ```
-GCP_PROJECT_ID  → anushkadataengineeringproject
+GCP_PROJECT_ID  → project_id
 GCP_LOCATION    → asia-south1
 GCP_BUCKET_NAME → anushka-aqi-data-bucket
 GCP_DATASET     → aqi_dataset
@@ -205,7 +205,7 @@ docker-compose up -d
 
 # Access Kestra UI
 open http://localhost:8080
-# Credentials: admin@kestra.io / Admin1234!
+# Credentials: ......
 ```
 
 ---
@@ -330,6 +330,8 @@ Queries `aqi_dataset.aqi_enriched` live from BigQuery and renders interactive Pl
 - 🧪 **Parameter** multi-select (default: first 2 pollutants)
 - 📅 **Year range** slider — 2010 to 2023
 
+<img width="473" height="764" alt="Screenshot 2026-04-15 001643" src="https://github.com/user-attachments/assets/59a81e60-9980-4cee-b494-458108f899d3" />
+
 ### Visualizations
 
 **📊 KPI Summary Cards**
@@ -344,14 +346,22 @@ Queries `aqi_dataset.aqi_enriched` live from BigQuery and renders interactive Pl
 - One chart rendered per selected parameter
 - City-coloured lines with year markers
 - Powered by `plotly.express.line`
+<img width="1347" height="753" alt="Screenshot 2026-04-15 001555" src="https://github.com/user-attachments/assets/d63f8208-6d2c-42c9-b276-c41211f47242" />
+
+<img width="1290" height="723" alt="Screenshot 2026-04-15 001608" src="https://github.com/user-attachments/assets/f47469a2-9b7f-49df-bccd-131eeb4e5b9a" />
+
+
 
 **🟡 AQI Category Heatmap**
 - X-axis: Year · Y-axis: City
 - Colour scale: `#2ecc71` (Good=1) → `#e74c3c` (Very Poor=4)
 - Shows the most frequent AQI category per city per year
+<img width="1238" height="807" alt="Screenshot 2026-04-15 001618" src="https://github.com/user-attachments/assets/13645334-3d64-4de2-8de2-57a8d7073845" />
 
 **🗂️ Raw Data Table**
 - Full filtered dataframe rendered with `st.dataframe`
+
+<img width="1309" height="793" alt="Screenshot 2026-04-15 001631" src="https://github.com/user-attachments/assets/844e964b-5fb5-4464-b67c-baa1871fde1e" />
 
 ```bash
 pip install streamlit google-cloud-bigquery pandas plotly db-dtypes
@@ -405,67 +415,6 @@ dbt_aqi/
 ├── app.py                               # Streamlit dashboard
 └── README.md
 ```
-
----
-
-## 🚀 How to Run Locally
-
-### Prerequisites
-
-- Google Cloud account · `gcloud` CLI · Docker · Python 3.11+ · dbt-bigquery · Terraform
-
-### Step 1 — Provision Infrastructure
-
-```bash
-cd terraform/
-terraform init
-terraform apply
-# Creates: anushka-aqi-data-bucket (GCS) + aqi_dataset (BigQuery)
-```
-
-### Step 2 — Start Kestra
-
-```bash
-docker-compose up -d
-# UI: http://localhost:8080  |  admin@kestra.io / Admin1234!
-```
-
-### Step 3 — Run Kestra Flows (in order)
-
-```
-01_gcp_setup      → Store project/region/bucket/dataset as KV pairs
-02_gcp_resources  → Create GCS bucket + BigQuery dataset
-03_aqi_upload     → Upload all CSVs from /data/ to gs://anushka-aqi-data-bucket/aqi_data/
-```
-
-### Step 4 — Create BigQuery Tables
-
-Run the warehouse SQL in this order:
-
-```sql
-1. CREATE EXTERNAL TABLE aqi_ext          -- points to GCS
-2. CREATE TABLE aqi_fact                  -- partitioned + clustered
-3. CREATE EXTERNAL TABLE stations_ext     -- metadata from GCS
-4. CREATE TABLE stations_info             -- native copy
-5. CREATE TABLE aqi_enriched              -- fact JOIN stations
-```
-
-### Step 5 — Run dbt
-
-```bash
-pip install dbt-bigquery
-dbt deps && dbt run && dbt test
-```
-
-### Step 6 — Launch Dashboard
-
-```bash
-pip install streamlit google-cloud-bigquery pandas plotly db-dtypes
-gcloud auth application-default login
-streamlit run app.py
-```
-
----
 
 ## 📌 Key Insights
 
