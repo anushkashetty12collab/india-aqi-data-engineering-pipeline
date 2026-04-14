@@ -51,80 +51,10 @@ This project delivers a **fully automated, end-to-end data engineering pipeline*
 ---
 
 ## 🏗️ Architecture
+```
+<img width="8192" height="1644" alt="AQI Data Ingestion Pipeline-2026-04-14-203143" src="https://github.com/user-attachments/assets/ba719614-5fb7-49a3-9f26-fd61f94080e0" />
 
-flowchart LR
-    %% ========================
-    %% LAYERS
-    %% ========================
-
-    %% Infrastructure Layer
-    subgraph INFRA["Infrastructure Layer"]
-        TF[Terraform\n(Infrastructure as Code)]
-    end
-
-    %% Ingestion Layer
-    subgraph INGEST["Data Ingestion"]
-        CSV[Raw AQI CSV Files]
-    end
-
-    %% Orchestration Layer
-    subgraph ORCH["Orchestration (Kestra)"]
-        KESTRA[Kestra Orchestrator]
-        F1[Flow 01: GCP Config]
-        F2[Flow 02: Create Resources]
-        F3[Flow 03: Upload CSVs]
-
-        KESTRA --> F1
-        KESTRA --> F2
-        KESTRA --> F3
-    end
-
-    %% Storage Layer
-    subgraph STORAGE["Storage (GCS)"]
-        GCS[GCS Bucket\n(aqi_data/*.csv)]
-    end
-
-    %% Warehouse Layer
-    subgraph WAREHOUSE["BigQuery (aqi_dataset)"]
-        EXT[aqi_ext\n(External Table)]
-        FACT[aqi_fact\n(Partitioned + Clustered)]
-        DIM[stations_info]
-        ENRICH[aqi_enriched\n(Final Table)]
-
-        EXT --> FACT
-        FACT --> ENRICH
-        DIM --> ENRICH
-    end
-
-    %% Transformation Layer
-    subgraph DBT["dbt Transformations"]
-        STG[Staging\n(stg_aqi, stg_stations)]
-        INT[Intermediate\n(int_aqi_long)]
-        MART[Marts\n(aqi_trend, aqi_summary, aqi_dashboard)]
-
-        STG --> INT --> MART
-    end
-
-    %% Visualization Layer
-    subgraph VIS["Visualization"]
-        DASH[Streamlit Dashboard\n(Plotly Visualizations)]
-    end
-
-    %% ========================
-    %% FLOWS
-    %% ========================
-
-    TF -->|Provisioning| GCS
-    TF -->|Provisioning| EXT
-
-    CSV --> KESTRA
-    KESTRA -->|Upload CSVs| GCS
-
-    GCS -->|External Table| EXT
-
-    ENRICH --> STG
-    MART --> DASH
-
+```
 
 
 
@@ -132,7 +62,7 @@ flowchart LR
 
 | Layer | Technology | Detail |
 |---|---|---|
-| ☁️ Cloud | **Google Cloud Platform** | Project: `anushkadataengineeringproject` |
+| ☁️ Cloud | **Google Cloud Platform** | Project: `project_id` |
 | 🗄️ Storage | **Google Cloud Storage** | Bucket: `anushka-aqi-data-bucket` · Region: `asia-south1` |
 | 🏛️ Warehouse | **BigQuery** | Dataset: `aqi_dataset` · Region: `ASIA-SOUTH1` |
 | 🔧 IaC | **Terraform** | Provisions GCS bucket + BigQuery dataset |
