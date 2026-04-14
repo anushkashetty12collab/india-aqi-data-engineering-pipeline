@@ -51,7 +51,7 @@ This project delivers a **fully automated, end-to-end data engineering pipeline*
 ---
 
 ## 🏗️ Architecture
-```
+
 flowchart LR
     %% ========================
     %% LAYERS
@@ -126,7 +126,7 @@ flowchart LR
     MART --> DASH
 
 
----
+
 
 ## ⚙️ Tech Stack
 
