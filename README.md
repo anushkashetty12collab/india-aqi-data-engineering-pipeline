@@ -52,8 +52,7 @@ This project delivers a **fully automated, end-to-end data engineering pipeline*
 
 ## 🏗️ Architecture
 
-<img width="8192" height="1644" alt="AQI Data Ingestion Pipeline-2026-04-14-203143" src="https://github.com/user-attachments/assets/e3fb31ed-b3fe-4b4c-bcff-8a2d6d6068a9" />
-
+<img width="8192" height="1644" alt="yrh" src="https://github.com/user-attachments/assets/c0470335-dbec-4f67-bd80-23286241a7a5" />
 
 
 
