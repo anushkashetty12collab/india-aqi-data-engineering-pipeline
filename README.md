@@ -51,56 +51,80 @@ This project delivers a **fully automated, end-to-end data engineering pipeline*
 ---
 
 ## 🏗️ Architecture
+```
+flowchart LR
+    %% ========================
+    %% LAYERS
+    %% ========================
 
-```
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                           AQI Data Pipeline                                  │
-│                                                                              │
-│  ┌──────────────┐                                                            │
-│  │  Terraform   │──────────── Provisions ──────────────────────────┐        │
-│  │    (IaC)     │                                                   │        │
-│  └──────────────┘                                                   ▼        │
-│                                                         ┌───────────────────┐│
-│  ┌──────────────┐    ┌──────────────────────────────┐  │  GCS Bucket       ││
-│  │  Raw AQI     │───▶│     Kestra Orchestrator       │  │  anushka-aqi-     ││
-│  │  CSV Files   │    │                               │──▶  data-bucket     ││
-│  └──────────────┘    │  Flow 01: GCP KV Config       │  │  /aqi_data/*.csv  ││
-│                      │  Flow 02: Create GCS + BQ     │  └────────┬──────────┘│
-│                      │  Flow 03: Upload CSVs → GCS   │           │           │
-│                      └──────────────────────────────┘           │           │
-│                                                                   ▼           │
-│  ┌────────────────────────────────────────────────────────────────────────┐  │
-│  │                     BigQuery — aqi_dataset                             │  │
-│  │                                                                        │  │
-│  │  aqi_ext (External → GCS)                                              │  │
-│  │       ↓                                                                │  │
-│  │  aqi_fact  ←  PARTITION BY MONTH  ·  CLUSTER BY parameter             │  │
-│  │       ↓                    stations_info (from metadata/*.csv)         │  │
-│  │  aqi_enriched  ←  aqi_fact LEFT JOIN stations_info                     │  │
-│  └───────────────────────────────┬────────────────────────────────────────┘  │
-│                                  │                                            │
-│                                  ▼                                            │
-│  ┌────────────────────────────────────────────────────────────────────────┐  │
-│  │                          dbt Models                                    │  │
-│  │                                                                        │  │
-│  │  stg_aqi · stg_stations                                                │  │
-│  │       ↓                                                                │  │
-│  │  int_aqi_long  (wide → long unpivot across 6 pollutants)               │  │
-│  │       ↓                                                                │  │
-│  │  fact_aqi + dim_stations → aqi_enriched                                │  │
-│  │       ↓                                                                │  │
-│  │  Marts: aqi_trend · aqi_summary · aqi_category · aqi_yearly           │  │
-│  │         aqi_dashboard · aqi_mumbai_yearly_trend                        │  │
-│  └───────────────────────────────┬────────────────────────────────────────┘  │
-│                                  │                                            │
-│                                  ▼                                            │
-│                     ┌────────────────────────┐                               │
-│                     │   Streamlit Dashboard   │                               │
-│                     │  Live BigQuery queries  │                               │
-│                     │  Plotly visualizations  │                               │
-│                     └────────────────────────┘                               │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+    %% Infrastructure Layer
+    subgraph INFRA["Infrastructure Layer"]
+        TF[Terraform\n(Infrastructure as Code)]
+    end
+
+    %% Ingestion Layer
+    subgraph INGEST["Data Ingestion"]
+        CSV[Raw AQI CSV Files]
+    end
+
+    %% Orchestration Layer
+    subgraph ORCH["Orchestration (Kestra)"]
+        KESTRA[Kestra Orchestrator]
+        F1[Flow 01: GCP Config]
+        F2[Flow 02: Create Resources]
+        F3[Flow 03: Upload CSVs]
+
+        KESTRA --> F1
+        KESTRA --> F2
+        KESTRA --> F3
+    end
+
+    %% Storage Layer
+    subgraph STORAGE["Storage (GCS)"]
+        GCS[GCS Bucket\n(aqi_data/*.csv)]
+    end
+
+    %% Warehouse Layer
+    subgraph WAREHOUSE["BigQuery (aqi_dataset)"]
+        EXT[aqi_ext\n(External Table)]
+        FACT[aqi_fact\n(Partitioned + Clustered)]
+        DIM[stations_info]
+        ENRICH[aqi_enriched\n(Final Table)]
+
+        EXT --> FACT
+        FACT --> ENRICH
+        DIM --> ENRICH
+    end
+
+    %% Transformation Layer
+    subgraph DBT["dbt Transformations"]
+        STG[Staging\n(stg_aqi, stg_stations)]
+        INT[Intermediate\n(int_aqi_long)]
+        MART[Marts\n(aqi_trend, aqi_summary, aqi_dashboard)]
+
+        STG --> INT --> MART
+    end
+
+    %% Visualization Layer
+    subgraph VIS["Visualization"]
+        DASH[Streamlit Dashboard\n(Plotly Visualizations)]
+    end
+
+    %% ========================
+    %% FLOWS
+    %% ========================
+
+    TF -->|Provisioning| GCS
+    TF -->|Provisioning| EXT
+
+    CSV --> KESTRA
+    KESTRA -->|Upload CSVs| GCS
+
+    GCS -->|External Table| EXT
+
+    ENRICH --> STG
+    MART --> DASH
+
 
 ---
 
