@@ -259,7 +259,7 @@ END AS aqi_category
 
 ### Cities Covered
 
-`Delhi` · `Mumbai` · `Bengaluru` · `Chennai` · `Kolkata` · `Hyderabad` · `Pune` · `Ahmedabad`....`etc`
+`Delhi` · `Mumbai` · `Bengaluru` · `Chennai` · `Kolkata` · `Hyderabad` · `Pune` · `Ahmedabad`. . . . `etc`
 
 ### Pollutants Tracked
 
