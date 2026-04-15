@@ -12,7 +12,7 @@
 
 <br/>
 
-> A production-grade, cloud-native data engineering pipeline that ingests, transforms, warehouses, and visualizes Air Quality Index (AQI) data across 8 major Indian cities from 2010–2023 — fully orchestrated by Kestra and powered by Google Cloud Platform.
+> A production-grade, cloud-native data engineering pipeline that ingests, transforms, warehouses, and visualizes Air Quality Index (AQI) data across Indian cities from 2010–2023 — fully orchestrated by Kestra and powered by Google Cloud Platform.
 
 </div>
 
