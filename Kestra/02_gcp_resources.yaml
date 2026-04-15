@@ -1,0 +1,27 @@
+id: 02_gcp_resources
+namespace: zoomcamp.project
+
+tasks:
+  - id: create_gcs_bucket
+    type: io.kestra.plugin.gcp.gcs.CreateBucket
+    name: "{{ kv('GCP_BUCKET_NAME') }}"
+    storageClass: REGIONAL
+    ifExists: SKIP
+
+  - id: create_bq_dataset
+    type: io.kestra.plugin.gcp.bigquery.CreateDataset
+    name: "{{ kv('GCP_DATASET') }}"
+    ifExists: SKIP
+
+pluginDefaults:
+  - type: io.kestra.plugin.gcp
+    values:
+      serviceAccount: "{{ kv('GCP_CREDS') }}"
+      projectId: "{{ kv('GCP_PROJECT_ID') }}"
+      location: "{{ kv('GCP_LOCATION') }}"
+      bucket: "{{kv('GCP_BUCKET_NAME')}}"
+
+
+
+
+
