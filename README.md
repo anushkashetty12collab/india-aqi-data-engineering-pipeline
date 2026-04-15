@@ -326,50 +326,6 @@ streamlit run app.py
 
 ---
 
-## 📂 Project Structure
-
-```
-dbt_aqi/
-│
-├── 📁 terraform/
-│   └── main.tf                          # GCS bucket + BigQuery dataset
-│
-├── 📁 kestra/
-│   ├── 01_gcp_setup.yml                 # Set GCP KV config
-│   ├── 02_gcp_resources.yml             # Create GCS + BigQuery resources
-│   ├── 03_aqi_upload.yml                # Upload CSVs from /data/ to GCS
-│   └── docker-compose.yml              # Kestra + Postgres stack
-│
-├── 📁 models/
-│   ├── staging/
-│   │   ├── stg_aqi.sql                  # Raw AQI → typed, renamed columns
-│   │   └── stg_stations.sql             # Station metadata passthrough
-│   ├── intermediate/
-│   │   └── int_aqi_long.sql             # Wide → long unpivot (6 pollutants)
-│   └── marts/
-│       ├── aqi_enriched.sql             # fact JOIN dim (final model)
-│       ├── dim_stations.sql
-│       ├── fact_aqi.sql
-│       └── reporting/
-│           ├── aqi_trend.sql
-│           ├── aqi_summary.sql
-│           ├── aqi_category.sql
-│           ├── aqi_yearly.sql
-│           ├── aqi_dashboard.sql
-│           ├── aqi_mumbai_yearly_trend.sql
-│           └── aqi_2016_2019_filter.sql
-│
-├── 📁 macros/
-├── 📁 analyses/
-├── 📁 seeds/
-├── 📁 tests/
-│
-├── dbt_project.yml
-├── profiles.yml
-├── packages.yml
-├── app.py                               # Streamlit dashboard
-└── README.md
-```
 
 ## 📌 Key Insights
 
