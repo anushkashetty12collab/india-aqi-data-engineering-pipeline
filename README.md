@@ -23,6 +23,7 @@
 - [Overview](#-overview)
 - [Architecture](#-architecture)
 - [Tech Stack](#-tech-stack)
+- [Data Pipeline Type](#-data-pipeline-type)
 - [Infrastructure as Code — Terraform](#-infrastructure-as-code--terraform)
 - [Orchestration — Kestra](#-orchestration--kestra)
 - [Data Warehouse — BigQuery](#-data-warehouse--bigquery)
@@ -74,7 +75,30 @@ This project delivers a **fully automated, end-to-end data engineering pipeline*
 
 
 ---
+## 📦 Data Pipeline Type
 
+This project implements a batch data pipeline 🗂️
+
+Data is ingested from historical AQI CSV files 📄 and processed in scheduled or manual runs using Kestra 🎼
+
+🔄 Pipeline Flow
+
+The pipeline follows a batch processing approach where data is:
+
+📥 Collected in files
+☁️ Uploaded to cloud storage
+🔄 Transformed in stages using dbt
+📊 Served for analytics via BigQuery and Streamlit
+🎯 Use Case
+
+This design is ideal for:
+
+📚 Historical data analysis
+📈 Analytical workloads
+
+And not intended for real-time streaming ⚡❌
+
+---
 ## 🏗️ Infrastructure as Code — Terraform
 
 Terraform provisions all core GCP resources — zero manual console setup required.
