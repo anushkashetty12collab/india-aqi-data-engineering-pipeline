@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: aqi_source
     description: "AQI project raw and processed tables in BigQuery"
-    database: anushkadataengineeringproject
+    database: project_id
     schema: aqi_dataset
 
     tables:
