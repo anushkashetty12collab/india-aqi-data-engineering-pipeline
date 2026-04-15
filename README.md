@@ -64,7 +64,7 @@ This project delivers a **fully automated, end-to-end data engineering pipeline*
 | Layer | Technology | Detail |
 |---|---|---|
 | ☁️ Cloud | **Google Cloud Platform** | Project: `project_id` |
-| 🗄️ Storage | **Google Cloud Storage** | Bucket: `anushka-aqi-data-bucket` · Region: `asia-south1` |
+| 🗄️ Storage | **Google Cloud Storage** | Bucket: `your-name-aqi-data-bucket` · Region: `asia-south1` |
 | 🏛️ Warehouse | **BigQuery** | Dataset: `aqi_dataset` · Region: `ASIA-SOUTH1` |
 | 🔧 IaC | **Terraform** | Provisions GCS bucket + BigQuery dataset |
 | 🎼 Orchestration | **Kestra v1.1** (Docker) | 3 flows: setup → resources → upload |
@@ -345,7 +345,7 @@ streamlit run app.py
 **Anushka Shetty**
 *Data Engineering Project — Zoomcamp*
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](#)
+[![LinkedIn](https://img.shields.io/badge/www.linkedin.com/in/anushka-shetty-3581a3255)](#)
 [![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github&logoColor=white)](#)
 
 </div>
