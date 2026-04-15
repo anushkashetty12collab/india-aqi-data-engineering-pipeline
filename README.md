@@ -37,6 +37,12 @@
 
 ## 🧭 Overview
 
+🎯 Problem Statement
+
+Air pollution is a major public health concern in India, but analyzing long-term Air Quality Index (AQI) trends across cities is challenging due to fragmented data, inconsistent formats, and lack of centralized analytical pipelines.
+
+This project addresses this problem by building a scalable data engineering pipeline that ingests raw AQI data, standardizes it, and enables efficient analysis of pollution trends across multiple cities and pollutants over time.
+
 This project delivers a **fully automated, end-to-end data engineering pipeline** tracking air quality across India's major cities. Every stage — from raw CSV ingestion to interactive dashboard — is orchestrated, version-controlled, and cloud-native.
 
 | Stage | Tool | What Happens |
