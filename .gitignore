@@ -217,3 +217,130 @@ dbt_packages/
 logs/
 # end dbt Cloud content
 dbt_internal_packages/
+
+# =========================
+# 🔐 Secrets & Credentials (CRITICAL)
+# =========================
+.env
+.env.*
+*.env
+
+# GCP / service accounts
+*.json
+!example*.json
+!*.template.json
+
+# dbt profiles (contains credentials)
+profiles.yml
+
+# Google auth cache
+.gcloud/
+config/gcloud/
+
+# =========================
+# 🐳 Docker & Kestra
+# =========================
+*.log
+logs/
+tmp/
+*.pid
+
+# Kestra working dirs
+/tmp/kestra-wd/
+kestra_tmp/
+kestra_data/
+
+# Docker volumes (local only)
+ny_taxi_postgres_data/
+kestra_postgres_data/
+
+# Override files
+docker-compose.override.yml
+
+# =========================
+# 🗄️ Database / Storage
+# =========================
+*.db
+*.sqlite
+*.sqlite3
+
+# =========================
+# 📊 Raw Data (VERY IMPORTANT)
+# =========================
+# AQI CSVs should NOT be pushed
+*.csv
+*.parquet
+*.avro
+*.jsonl
+
+# But allow sample/demo data
+!data/sample/
+!data/example/
+
+# Local mounted data folder
+/data/
+
+# Windows absolute path mount
+C:/Users/Anushka/Downloads/archive/
+
+# =========================
+# 🧠 Python / Streamlit
+# =========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+.venv/
+venv/
+env/
+
+# Streamlit cache
+.streamlit/
+
+# =========================
+# 📦 dbt
+# =========================
+target/
+dbt_packages/
+logs/
+
+# =========================
+# 🏗️ Terraform
+# =========================
+.terraform/
+.terraform.lock.hcl
+
+# Terraform state (contains secrets)
+*.tfstate
+*.tfstate.*
+
+crash.log
+
+# =========================
+# 💻 IDE / OS
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# =========================
+# 📦 Build / Misc
+# =========================
+dist/
+build/
+*.egg-info/
+.cache/
+
+# =========================
+# 📜 Misc Logs
+# =========================
+*.log
+
+# =========================
+# 🚫 BigQuery temp exports (if any)
+# =========================
+*.tmp
