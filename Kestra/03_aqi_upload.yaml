@@ -1,0 +1,35 @@
+id: 03_aqi_upload
+namespace: zoomcamp.project
+
+description: Upload AQI CSV folder to GCS
+
+variables:
+  gcs_path: "gs://{{ kv('GCP_BUCKET_NAME') }}/aqi_data/"
+
+tasks:
+  - id: extract
+    type: io.kestra.plugin.scripts.shell.Commands
+    outputFiles:
+      - "*.csv"
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    commands:
+      - cp /data/*.csv . || true
+
+  - id: upload_to_gcs
+    type: io.kestra.core.tasks.flows.EachSequential
+    value: "{{ outputs.extract.outputFiles | values }}"
+    tasks:
+        - id: upload_file
+          type: io.kestra.plugin.gcp.gcs.Upload
+          from: "{{ taskrun.value }}"
+          to: "{{ vars.gcs_path }}{{ taskrun.value | split('/') | last }}"
+
+pluginDefaults:
+  - type: io.kestra.plugin.gcp
+    values:
+      serviceAccount: "{{ kv('GCP_CREDS') }}"
+      projectId: "{{ kv('GCP_PROJECT_ID') }}"
+      location: "{{ kv('GCP_LOCATION') }}"
+
+
