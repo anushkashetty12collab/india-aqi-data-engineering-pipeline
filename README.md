@@ -345,7 +345,7 @@ streamlit run app.py
 **Anushka Shetty**
 *Data Engineering Project — Zoomcamp*
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Anushka%20Shetty-blue?logo=linkedin)](https://www.linkedin.com/in/anushka-shetty-3581a3255/)(#)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/anushka-shetty-3581a3255/)
 [![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github&logoColor=white)](#)
 
 </div>
