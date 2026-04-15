@@ -28,7 +28,6 @@
 - [Data Warehouse — BigQuery](#-data-warehouse--bigquery)
 - [dbt Transformations](#-dbt-transformations)
 - [Dashboard — Streamlit](#-dashboard--streamlit)
-- [Project Structure](#-project-structure)
 - [How to Run](#-how-to-run-locally)
 - [Key Insights](#-key-insights)
 - [Author](#-author)
